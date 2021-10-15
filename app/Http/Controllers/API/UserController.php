@@ -61,7 +61,7 @@ class UserController extends Controller
             // simpan data requets didalam variable
             $credentials = request(['email', 'password']);
 
-            //cek jika authentication dari $credentian error maka akan muncul pesan error
+            //cek hasil request $credebtials
             if (!Auth::attempt($credentials)) {
                 //jika ada error kesini
                 return ResponseFormatter::error([
@@ -94,5 +94,14 @@ class UserController extends Controller
     public function fetch(Request $request)
     {
         return ResponseFormatter::success($request->user(), 'Geting user profile successfully');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $data = $request->all();
+        $user = Auth::user();
+        $user->update($data);
+
+        return ResponseFormatter::success($user, 'Profile updated');
     }
 }
